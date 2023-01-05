@@ -22,7 +22,7 @@ describe("Todo Application", function () {
     }
   });
 
-  test("Creates a todo and responds with json at /todos POST endpoint", async () => {
+  test("Test Create Todo Functionality", async () => {
     const response = await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
@@ -36,7 +36,7 @@ describe("Todo Application", function () {
     expect(parsedResponse.id).toBeDefined();
   });
 
-  test("Marks a todo with the given ID as complete", async () => {
+  test("Test Markascomplete Functionality", async () => {
     const response = await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
@@ -54,25 +54,26 @@ describe("Todo Application", function () {
     expect(parsedUpdateResponse.completed).toBe(true);
   });
 
-  test("Fetches all todos in the database using /todos endpoint", async () => {
+  test("Test Fetching all todos", async () => {
     await agent.post("/todos").send({
       title: "Buy xbox",
       dueDate: new Date().toISOString(),
       completed: false,
     });
     await agent.post("/todos").send({
-      title: "Buy ps3",
+      title: "Renew Hotstar",
       dueDate: new Date().toISOString(),
       completed: false,
     });
     const response = await agent.get("/todos");
+    console.log(response.text);
     const parsedResponse = JSON.parse(response.text);
 
     expect(parsedResponse.length).toBe(4);
-    expect(parsedResponse[3]["title"]).toBe("Buy ps3");
+    expect(parsedResponse[3]["title"]).toBe("Renew Hotstar");
   });
 
-  test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
+  test("Test deleting a Todo", async () => {
     // FILL IN YOUR CODE HERE
     const response = await agent.post("/todos").send({
       title: "Buy iphone",
